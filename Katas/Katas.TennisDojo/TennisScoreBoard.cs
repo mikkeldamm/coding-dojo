@@ -2,128 +2,122 @@
 {
     public class TennisScoreBoard
     {
-        public int P1point = 0;
-        public int P2point = 0;
+        public int PlayerA = 0;
+        public int PlayerB = 0;
 
-        public string P1res = "";
-        public string P2res = "";
+        public string P1Res = "";
+        public string P2Res = "";
 
-        private string player1Name;
-        private string player2Name;
+        private readonly Team _team1;
+        private readonly Team _team2;
+        private readonly IWatcher _watcher;
 
-        private string playerWithGarminWatch = null;
+        private string _playerWithWatch;
+        private string _score;
 
-        public TennisScoreBoard(string player1Name, string player2Name)
+        public TennisScoreBoard(Team team1, Team team2, IWatcher watcher)
         {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
+            _team1 = team1;
+            _team2 = team2;
+            _watcher = watcher;
         }
 
         public string GetScore()
         {
-            string score = "";
+            _score = GetEvenScore();
 
-            if (P1point == P2point && P1point < 3)
+            if (PlayerA == PlayerB && PlayerA > 2)
+                _score = "Deuce";
+
+            if (OnePlayersScoreIsLove(PlayerA, PlayerB, false)) return _score;
+
+            if (OnePlayersScoreIsLove(PlayerB, PlayerA, true)) return _score;
+
+            if (PlayerA > PlayerB && PlayerA < 4)
             {
-                if (P1point == 0)
-                    score = "Love";
-                if (P1point == 1)
-                    score = "Fifteen";
-                if (P1point == 2)
-                    score = "Thirty";
-                score += "-All";
+                if (PlayerA == 2)
+                    P1Res = "Thirty";
+                if (PlayerA == 3)
+                    P1Res = "Forty";
+                if (PlayerB == 1)
+                    P2Res = "Fifteen";
+                if (PlayerB == 2)
+                    P2Res = "Thirty";
+
+                _score = P1Res + "-" + P2Res;
             }
 
-            if (P1point == P2point && P1point > 2)
-                score = "Deuce";
-
-            if (P1point > 0 && P2point == 0)
+            if (PlayerB > PlayerA && PlayerB < 4)
             {
-                if (P1point == 1)
-                    P1res = "Fifteen";
-                if (P1point == 2)
-                    P1res = "Thirty";
-                if (P1point == 3)
-                    P1res = "Forty";
+                if (PlayerB == 2)
+                    P2Res = "Thirty";
+                if (PlayerB == 3)
+                    P2Res = "Forty";
+                if (PlayerA == 1)
+                    P1Res = "Fifteen";
+                if (PlayerA == 2)
+                    P1Res = "Thirty";
 
-                P2res = "Love";
-                score = P1res + "-" + P2res;
+                _score = P1Res + "-" + P2Res;
             }
 
-            if (P2point > 0 && P1point == 0)
+            if (PlayerA > PlayerB && PlayerB >= 3)
             {
-                if (P2point == 1)
-                    P2res = "Fifteen";
-                if (P2point == 2)
-                    P2res = "Thirty";
-                if (P2point == 3)
-                    P2res = "Forty";
-
-                P1res = "Love";
-                score = P1res + "-" + P2res;
+                _score = "Advantage player1";
             }
 
-            if (P1point > P2point && P1point < 4)
+            if (PlayerB > PlayerA && PlayerA >= 3)
             {
-                if (P1point == 2)
-                    P1res = "Thirty";
-                if (P1point == 3)
-                    P1res = "Forty";
-                if (P2point == 1)
-                    P2res = "Fifteen";
-                if (P2point == 2)
-                    P2res = "Thirty";
-
-                score = P1res + "-" + P2res;
+                _score = "Advantage player2";
             }
 
-            if (P2point > P1point && P2point < 4)
+            if (PlayerA >= 4 && PlayerB >= 0 && (PlayerA - PlayerB) >= 2)
             {
-                if (P2point == 2)
-                    P2res = "Thirty";
-                if (P2point == 3)
-                    P2res = "Forty";
-                if (P1point == 1)
-                    P1res = "Fifteen";
-                if (P1point == 2)
-                    P1res = "Thirty";
-
-                score = P1res + "-" + P2res;
+                _score = "Win for player1";
             }
 
-            if (P1point > P2point && P2point >= 3)
+            if (PlayerB >= 4 && PlayerA >= 0 && (PlayerB - PlayerA) >= 2)
             {
-                score = "Advantage player1";
+                _score = "Win for player2";
             }
 
-            if (P2point > P1point && P1point >= 3)
+            _team1.SetScore(_score);
+            _team2.SetScore(_score);
+
+            return _score;
+        }
+
+        private bool OnePlayersScoreIsLove(int playerAPoint, int playerBPoint, bool reverse)
+        {
+            if (playerAPoint > 0 && playerBPoint == 0)
             {
-                score = "Advantage player2";
-            }
+                if (playerAPoint == 1)
+                    P1Res = "Fifteen";
+                if (playerAPoint == 2)
+                    P1Res = "Thirty";
+                if (playerAPoint == 3)
+                    P1Res = "Forty";
 
-            if (P1point >= 4 && P2point >= 0 && (P1point - P2point) >= 2)
+                P2Res = "Love";
+                _score = reverse ? P2Res + "-" + P1Res : P1Res + "-" + P2Res;
+                return true;
+            }
+            return false;
+        }
+
+        private string GetEvenScore()
+        {
+            if (PlayerA == PlayerB && PlayerA < 3)
             {
-                score = "Win for player1";
+                if (PlayerA == 0)
+                    _score = "Love";
+                if (PlayerA == 1)
+                    _score = "Fifteen";
+                if (PlayerA == 2)
+                    _score = "Thirty";
+                _score += "-All";
             }
-
-            if (P2point >= 4 && P1point >= 0 && (P2point - P1point) >= 2)
-            {
-                score = "Win for player2";
-            }
-
-            if (playerWithGarminWatch != "")
-            {
-                var playerName = "";
-                if (playerWithGarminWatch == player1Name)
-                    playerName = player1Name;
-                if (playerWithGarminWatch == player2Name) 
-                    playerName = player2Name;
-
-                var sender = new GarminWatchSender();
-                sender.Send(score, playerName);
-            }
-
-            return score;
+            return _score;
         }
 
         public void SetP1Score(int number)
@@ -144,12 +138,12 @@
 
         public void P1Score()
         {
-            P1point++;
+            PlayerA++;
         }
 
         public void P2Score()
         {
-            P2point++;
+            PlayerB++;
         }
 
         public void WonPoint(string player)
@@ -158,11 +152,6 @@
                 P1Score();
             else
                 P2Score();
-        }
-
-        public void SetPlayerThatHasGarminWatch(string player)
-        {
-            playerWithGarminWatch = player;
         }
     }
 }

@@ -57,7 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FakeApiPost.cs" />
-    <Compile Include="GarminWatchSender.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="WatchSender.cs" />
+    <Compile Include="IWatcher.cs" />
     <Compile Include="TennisScoreBoardTests.cs" />
     <Compile Include="TennisScoreBoard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

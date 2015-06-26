@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using Moq;
+using Shouldly;
 using Xunit;
 
 namespace Katas.TennisDojo
@@ -9,7 +10,17 @@ namespace Katas.TennisDojo
 
         public TennisScoreBoardTests()
         {
-            _scoreBoard = new TennisScoreBoard("player1", "player2");
+            var garminWatcher = new Mock<IWatcher>();
+            var appleWatch = new Mock<IWatcher>();
+            var player1 = new Player { Name = "player 1", Watch = garminWatcher.Object };
+            var player2 = new Player { Name = "player 2", Watch = appleWatch.Object };
+            var player3 = new Player {Name = "player 3"};
+            var player4 = new Player { Name = "player 4", Watch = garminWatcher.Object };
+            
+
+            var team1 = new Team(player1, player2);
+            var team2 = new Team(player3, player4);
+            _scoreBoard = new TennisScoreBoard(team1, team2, garminWatcher.Object);
         }
 
         [Theory]
@@ -88,7 +99,7 @@ namespace Katas.TennisDojo
         }
 
         [Fact]
-        public void realisticGamePlayers()
+        public void RealisticGamePlayers()
         {
             _scoreBoard.WonPoint("player1");
             _scoreBoard.WonPoint("player1");

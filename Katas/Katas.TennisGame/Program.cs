@@ -20,15 +20,14 @@ namespace Katas.TennisGame
             // Tennis Game 1
             _game1Player1 = "player1";
             _game1Player2 = "player2";
-
-            _tennisScoreBoardGame1 = new TennisScoreBoard(_game1Player1, _game1Player2);
+            _tennisScoreBoardGame1 = new TennisScoreBoard(_game1Player1, _game1Player2, new WatchSender());
             _tennisScoreBoardGame1.SetPlayerThatHasGarminWatch(_game1Player1);
 
             // Tennis Game 1
             _game2Player1 = "player1";
             _game2Player2 = "player2";
 
-            _tennisScoreBoardGame2 = new TennisScoreBoard(_game2Player1, _game2Player2);
+            _tennisScoreBoardGame2 = new TennisScoreBoard(_game2Player1, _game2Player2, new WatchSender());
             _tennisScoreBoardGame2.SetPlayerThatHasGarminWatch(_game2Player2);
 
             // Start games
