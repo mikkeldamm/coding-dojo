@@ -2,128 +2,126 @@
 {
     public class TennisScoreBoard
     {
-        public int P1point = 0;
-        public int P2point = 0;
+        private Team Team1;
+        private Team Team2;
 
         public string P1res = "";
         public string P2res = "";
 
-        private string player1Name;
-        private string player2Name;
-
         private string playerWithGarminWatch = null;
+
+        public TennisScoreBoard(string player1Name, string player2Name, string player3Name, string player4Name)
+        {
+            Team1 = new Team(player1Name, player2Name);
+            Team2 = new Team(player3Name, player4Name);
+        }
 
         public TennisScoreBoard(string player1Name, string player2Name)
         {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
+            Team1 = new Team(player1Name);
+            Team2 = new Team(player2Name);
+        }
+
+        public string GetPoints(int PlayerPoints)
+        {
+            switch (PlayerPoints)
+            {
+                case 1:
+                    return "Fifteen";
+                case 2:
+                    return "Thirty";
+                case 3:
+                    return "Forty";
+
+                default:
+                    return "Love";
+            }
         }
 
         public string GetScore()
         {
             string score = "";
 
-            if (P1point == P2point && P1point < 3)
+            if (Team1.Point == Team2.Point && Team1.Point < 3)
             {
-                if (P1point == 0)
-                    score = "Love";
-                if (P1point == 1)
-                    score = "Fifteen";
-                if (P1point == 2)
-                    score = "Thirty";
-                score += "-All";
+                score = GetPoints(Team1.Point) + "-All";
             }
 
-            if (P1point == P2point && P1point > 2)
+            if (Team1.Point == Team2.Point && Team1.Point > 2)
                 score = "Deuce";
 
-            if (P1point > 0 && P2point == 0)
+            if (Team1.Point > 0 && Team2.Point == 0)
             {
-                if (P1point == 1)
-                    P1res = "Fifteen";
-                if (P1point == 2)
-                    P1res = "Thirty";
-                if (P1point == 3)
-                    P1res = "Forty";
+                P1res = GetPoints(Team1.Point);
 
                 P2res = "Love";
                 score = P1res + "-" + P2res;
             }
 
-            if (P2point > 0 && P1point == 0)
+            if (Team2.Point > 0 && Team1.Point == 0)
             {
-                if (P2point == 1)
-                    P2res = "Fifteen";
-                if (P2point == 2)
-                    P2res = "Thirty";
-                if (P2point == 3)
-                    P2res = "Forty";
+                P2res = GetPoints(Team2.Point);
 
                 P1res = "Love";
                 score = P1res + "-" + P2res;
             }
 
-            if (P1point > P2point && P1point < 4)
+            if (Team1.Point > Team2.Point && Team1.Point < 4)
             {
-                if (P1point == 2)
-                    P1res = "Thirty";
-                if (P1point == 3)
-                    P1res = "Forty";
-                if (P2point == 1)
-                    P2res = "Fifteen";
-                if (P2point == 2)
-                    P2res = "Thirty";
+                P1res = GetPoints(Team1.Point);
+                P2res = GetPoints(Team2.Point);
 
                 score = P1res + "-" + P2res;
             }
 
-            if (P2point > P1point && P2point < 4)
+            if (Team2.Point > Team1.Point && Team2.Point < 4)
             {
-                if (P2point == 2)
-                    P2res = "Thirty";
-                if (P2point == 3)
-                    P2res = "Forty";
-                if (P1point == 1)
-                    P1res = "Fifteen";
-                if (P1point == 2)
-                    P1res = "Thirty";
+                P1res = GetPoints(Team1.Point);
+                P2res = GetPoints(Team2.Point);
 
                 score = P1res + "-" + P2res;
             }
 
-            if (P1point > P2point && P2point >= 3)
+            if (Team1.Point > Team2.Point && Team2.Point >= 3)
             {
-                score = "Advantage player1";
+                score = "Advantage Team1";
             }
 
-            if (P2point > P1point && P1point >= 3)
+            if (Team2.Point > Team1.Point && Team1.Point >= 3)
             {
-                score = "Advantage player2";
+                score = "Advantage Team2";
             }
 
-            if (P1point >= 4 && P2point >= 0 && (P1point - P2point) >= 2)
+            if (Team1.Point >= 4 && Team2.Point >= 0 && (Team1.Point - Team2.Point) >= 2)
             {
-                score = "Win for player1";
+                score = "Win for Team1";
             }
 
-            if (P2point >= 4 && P1point >= 0 && (P2point - P1point) >= 2)
+            if (Team2.Point >= 4 && Team1.Point >= 0 && (Team2.Point - Team1.Point) >= 2)
             {
-                score = "Win for player2";
+                score = "Win for Team2";
             }
 
-            if (playerWithGarminWatch != "")
-            {
-                var playerName = "";
-                if (playerWithGarminWatch == player1Name)
-                    playerName = player1Name;
-                if (playerWithGarminWatch == player2Name) 
-                    playerName = player2Name;
-
-                var sender = new GarminWatchSender();
-                sender.Send(score, playerName);
-            }
+            SendScoreToTeam(playerWithGarminWatch);
 
             return score;
+        }
+
+        public void SendScoreToTeam(Team team)
+        {
+            
+            sendToWatch(team.Player1, team.Result);
+            sendToWatch(team.Player2, team.Result);
+
+        }
+
+        private void sendToWatch(Player player, string score )
+        {
+            if (player != null)
+            {
+                var sender = new GarminWatchSender();
+                sender.Send(score, player.Name);
+            }
         }
 
         public void SetP1Score(int number)

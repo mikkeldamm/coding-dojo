@@ -13,6 +13,17 @@ namespace Katas.TennisDojo
         }
 
         [Theory]
+        [InlineData(1, "Fifteen")]
+        [InlineData(2, "Thirty")]
+        [InlineData(3, "Forty")]
+        [InlineData(10, "Love")]
+        public void GetPoints(int PlayerPoints, string expected)
+        {
+            var result = _scoreBoard.GetPoints(PlayerPoints);
+            result.ShouldBe(expected);
+        }
+
+        [Theory]
         [InlineData(0, 0, "Love-All")]
         [InlineData(1, 1, "Fifteen-All")]
         [InlineData(2, 2, "Thirty-All")]
@@ -102,5 +113,7 @@ namespace Katas.TennisDojo
             _scoreBoard.WonPoint("player2");
             _scoreBoard.GetScore().ShouldBe("Deuce");
         }
+
+
     }
 }
