@@ -10,8 +10,8 @@ namespace Katas.TennisDojo
 
         public TennisScoreBoardTests()
         {
-            var garminWatcher = new Mock<IWatcher>();
-            var appleWatch = new Mock<IWatcher>();
+            var garminWatcher = new Mock<ISportsWatch>();
+            var appleWatch = new Mock<ISportsWatch>();
             var player1 = new Player { Name = "player 1", Watch = garminWatcher.Object };
             var player2 = new Player { Name = "player 2", Watch = appleWatch.Object };
             var player3 = new Player {Name = "player 3"};
@@ -20,7 +20,7 @@ namespace Katas.TennisDojo
 
             var team1 = new Team(player1, player2);
             var team2 = new Team(player3, player4);
-            _scoreBoard = new TennisScoreBoard(team1, team2, garminWatcher.Object);
+            _scoreBoard = new TennisScoreBoard(team1, team2);
         }
 
         [Theory]
@@ -101,16 +101,18 @@ namespace Katas.TennisDojo
         [Fact]
         public void RealisticGamePlayers()
         {
-            _scoreBoard.WonPoint("player1");
-            _scoreBoard.WonPoint("player1");
-            _scoreBoard.WonPoint("player2");
-            _scoreBoard.WonPoint("player2");
-            _scoreBoard.WonPoint("player1");
-            _scoreBoard.WonPoint("player2");
-            _scoreBoard.WonPoint("player1");
-            _scoreBoard.WonPoint("player2");
-            _scoreBoard.WonPoint("player1");
-            _scoreBoard.WonPoint("player2");
+            var _team1 = new Team(new Player(), null);
+            var _team2 = new Team(new Player(), null);
+            _scoreBoard.WonPoint(_team1);
+            _scoreBoard.WonPoint(_team1);
+            _scoreBoard.WonPoint(_team2);
+            _scoreBoard.WonPoint(_team2);
+            _scoreBoard.WonPoint(_team1);
+            _scoreBoard.WonPoint(_team2);
+            _scoreBoard.WonPoint(_team1);
+            _scoreBoard.WonPoint(_team2);
+            _scoreBoard.WonPoint(_team1);
+            _scoreBoard.WonPoint(_team2);
             _scoreBoard.GetScore().ShouldBe("Deuce");
         }
     }

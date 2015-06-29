@@ -10,16 +10,14 @@
 
         private readonly Team _team1;
         private readonly Team _team2;
-        private readonly IWatcher _watcher;
 
         private string _playerWithWatch;
         private string _score;
 
-        public TennisScoreBoard(Team team1, Team team2, IWatcher watcher)
+        public TennisScoreBoard(Team team1, Team team2)
         {
             _team1 = team1;
             _team2 = team2;
-            _watcher = watcher;
         }
 
         public string GetScore()
@@ -136,22 +134,19 @@
             }
         }
 
-        public void P1Score()
-        {
-            PlayerA++;
-        }
+        //public void P1Score()
+        //{
+        //    PlayerA++;
+        //}
 
-        public void P2Score()
-        {
-            PlayerB++;
-        }
+        //public void P2Score()
+        //{
+        //    PlayerB++;
+        //}
 
-        public void WonPoint(string player)
+        public void WonPoint(Team team)
         {
-            if (player == "player1")
-                P1Score();
-            else
-                P2Score();
+            team.TeamScore++;
         }
     }
 }

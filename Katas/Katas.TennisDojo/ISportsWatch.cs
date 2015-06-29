@@ -1,6 +1,6 @@
 ﻿namespace Katas.TennisDojo
 {
-    public interface IWatcher
+    public interface ISportsWatch
     {
         void Send(string score, string player);
     }

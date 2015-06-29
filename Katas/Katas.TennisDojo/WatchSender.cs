@@ -1,6 +1,6 @@
 ﻿namespace Katas.TennisDojo
 {
-    public class WatchSender : IWatcher
+    public class WatchSender : ISportsWatch
     {
         public void Send(string score, string player)
         {
@@ -9,7 +9,7 @@
         }
     }
 
-    public class AppleWatchSender : IWatcher
+    public class AppleWatchSender : ISportsWatch
     {
         public void Send(string score, string player)
         {
