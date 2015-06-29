@@ -24,57 +24,57 @@
         {
             _score = GetEvenScore();
 
-            if (PlayerA == PlayerB && PlayerA > 2)
+            if (_team1.TeamPoints == _team2.TeamPoints && _team1.TeamPoints > 2)
                 _score = "Deuce";
 
-            if (OnePlayersScoreIsLove(PlayerA, PlayerB, false)) return _score;
+            if (OnePlayersScoreIsLove(_team1.TeamPoints, _team2.TeamPoints, false)) return _score;
 
-            if (OnePlayersScoreIsLove(PlayerB, PlayerA, true)) return _score;
+            if (OnePlayersScoreIsLove(_team2.TeamPoints, _team1.TeamPoints, true)) return _score;
 
-            if (PlayerA > PlayerB && PlayerA < 4)
+            if (_team1.TeamPoints > _team2.TeamPoints && _team1.TeamPoints < 4)
             {
-                if (PlayerA == 2)
+                if (_team1.TeamPoints == 2)
                     P1Res = "Thirty";
-                if (PlayerA == 3)
+                if (_team1.TeamPoints == 3)
                     P1Res = "Forty";
-                if (PlayerB == 1)
+                if (_team2.TeamPoints == 1)
                     P2Res = "Fifteen";
-                if (PlayerB == 2)
+                if (_team2.TeamPoints == 2)
                     P2Res = "Thirty";
 
                 _score = P1Res + "-" + P2Res;
             }
 
-            if (PlayerB > PlayerA && PlayerB < 4)
+            if (_team2.TeamPoints > _team1.TeamPoints && _team2.TeamPoints < 4)
             {
-                if (PlayerB == 2)
+                if (_team2.TeamPoints == 2)
                     P2Res = "Thirty";
-                if (PlayerB == 3)
+                if (_team2.TeamPoints == 3)
                     P2Res = "Forty";
-                if (PlayerA == 1)
+                if (_team1.TeamPoints == 1)
                     P1Res = "Fifteen";
-                if (PlayerA == 2)
+                if (_team1.TeamPoints == 2)
                     P1Res = "Thirty";
 
                 _score = P1Res + "-" + P2Res;
             }
 
-            if (PlayerA > PlayerB && PlayerB >= 3)
+            if (_team1.TeamPoints > _team2.TeamPoints && _team2.TeamPoints >= 3)
             {
                 _score = "Advantage player1";
             }
 
-            if (PlayerB > PlayerA && PlayerA >= 3)
+            if (_team2.TeamPoints > _team1.TeamPoints && _team1.TeamPoints >= 3)
             {
                 _score = "Advantage player2";
             }
 
-            if (PlayerA >= 4 && PlayerB >= 0 && (PlayerA - PlayerB) >= 2)
+            if (_team1.TeamPoints >= 4 && _team2.TeamPoints >= 0 && (_team1.TeamPoints - _team2.TeamPoints) >= 2)
             {
                 _score = "Win for player1";
             }
 
-            if (PlayerB >= 4 && PlayerA >= 0 && (PlayerB - PlayerA) >= 2)
+            if (_team2.TeamPoints >= 4 && _team1.TeamPoints >= 0 && (_team2.TeamPoints - _team1.TeamPoints) >= 2)
             {
                 _score = "Win for player2";
             }
@@ -105,13 +105,13 @@
 
         private string GetEvenScore()
         {
-            if (_team1.TeamScore == _team2.TeamScore && _team1.TeamScore < 3)
+            if (_team1.TeamPoints == _team2.TeamPoints && _team1.TeamPoints < 3)
             {
-                if (_team1.TeamScore == 0)
+                if (_team1.TeamPoints == 0)
                     _score = "Love";
-                if (_team1.TeamScore == 1)
+                if (_team1.TeamPoints == 1)
                     _score = "Fifteen";
-                if (_team1.TeamScore == 2)
+                if (_team1.TeamPoints == 2)
                     _score = "Thirty";
                 _score += "-All";
             }
@@ -146,7 +146,7 @@
 
         public void WonPoint(Team team)
         {
-            team.TeamScore++;
+            team.TeamPoints++;
         }
     }
 }

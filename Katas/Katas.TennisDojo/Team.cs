@@ -11,7 +11,7 @@ namespace Katas.TennisDojo
             
         }
 
-        public int TeamScore { get; set; }
+        public int TeamPoints { get; set; }
         public List<Player> Players{ get; set; }
 
         public string Score { get; set; }
