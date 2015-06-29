@@ -59,7 +59,7 @@
     <Compile Include="FakeApiPost.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Team.cs" />
-    <Compile Include="WatchSender.cs" />
+    <Compile Include="GarminWatch.cs" />
     <Compile Include="ISportsWatch.cs" />
     <Compile Include="TennisScoreBoardTests.cs" />
     <Compile Include="TennisScoreBoard.cs" />

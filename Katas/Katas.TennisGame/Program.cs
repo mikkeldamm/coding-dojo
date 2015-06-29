@@ -25,10 +25,10 @@ namespace Katas.TennisGame
         static void Main(string[] args)
         {
             // Tennis Game 1
-            _player1 = new Player{Name = "player1", Watch = new AppleWatchSender()};
-            _player2 = new Player{Name = "player2", Watch = new AppleWatchSender()};
-            _player3 = new Player { Name = "player3", Watch = new AppleWatchSender() };
-            _player4 = new Player { Name = "player4", Watch = new AppleWatchSender() };
+            _player1 = new Player{Name = "player1", Watch = new GarminWatch()};
+            _player2 = new Player{Name = "player2", Watch = new AppleWatch()};
+            _player3 = new Player { Name = "player3", Watch = new AppleWatch() };
+            _player4 = new Player { Name = "player4", Watch = new GarminWatch() };
             _team1 = new Team(_player1,_player2);
             _team2 = new Team(_player3, _player4);
             _tennisScoreBoardGame1 = new TennisScoreBoard(_team1, _team2);
@@ -51,7 +51,7 @@ namespace Katas.TennisGame
 
         private static async Task startGame1()
         {
-            var wonPoints = new[] { _player1.Name, _player1.Name, _player3.Name, _player4.Name, _player2.Name, _player1.Name };
+            var wonPoints = new[] { _team1, _team1, _team2, _team2, _team2, _team1 };
 
             Console.WriteLine("Game1: ----- start ----");
 
@@ -60,27 +60,27 @@ namespace Katas.TennisGame
 
         private static async Task startGame2()
         {
-            var wonPoints = new[] { _player2.Name, _player1.Name, _player3.Name, _player4.Name, _player2.Name, _player1.Name, _player1.Name, _player1.Name, _player1.Name, _player1.Name, _player1.Name, _player2.Name, _player3.Name, _player4.Name};
+            var wonPoints = new[] { _team1, _team1, _team2, _team2, _team2, _team1, _team1, _team1, _team1, _team1, _team1, _team1, _team2, _team1};
 
             Console.WriteLine("Game2: ----- start ----");
 
             await PlayGame(_tennisScoreBoardGame2, wonPoints, "Game2");
         }
 
-        private static async Task PlayGame(TennisScoreBoard board, IEnumerable<string> wonPoints, string gameName)
+        private static async Task PlayGame(TennisScoreBoard board, IEnumerable<Team> wonPoints, string gameName)
         {
             board.GetScore().WriteLine(gameName + ": {0}");
 
             foreach (var pointWinner in wonPoints)
             {
-                var player = pointWinner;
+                var team = pointWinner;
 
                 await Task.Run(() =>
                 {
                     var rdn = new Random();
                     Task.Delay((rdn.Next(1, 6)*1000)).Wait();
 
-                    board.WonPoint(player);
+                    board.WonPoint(team);
                     board.GetScore().WriteLine(gameName + ": {0}");
                 });
             }

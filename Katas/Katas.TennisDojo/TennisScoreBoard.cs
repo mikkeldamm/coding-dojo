@@ -105,13 +105,13 @@
 
         private string GetEvenScore()
         {
-            if (PlayerA == PlayerB && PlayerA < 3)
+            if (_team1.TeamScore == _team2.TeamScore && _team1.TeamScore < 3)
             {
-                if (PlayerA == 0)
+                if (_team1.TeamScore == 0)
                     _score = "Love";
-                if (PlayerA == 1)
+                if (_team1.TeamScore == 1)
                     _score = "Fifteen";
-                if (PlayerA == 2)
+                if (_team1.TeamScore == 2)
                     _score = "Thirty";
                 _score += "-All";
             }
@@ -122,7 +122,7 @@
         {
             for (int i = 0; i < number; i++)
             {
-                P1Score();
+                WonPoint(_team1);
             }
         }
 
@@ -130,7 +130,7 @@
         {
             for (int i = 0; i < number; i++)
             {
-                P2Score();
+                WonPoint(_team2);
             }
         }
 
