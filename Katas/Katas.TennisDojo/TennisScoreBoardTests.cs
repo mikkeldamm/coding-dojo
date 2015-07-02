@@ -77,42 +77,40 @@ namespace Katas.TennisDojo
         }
 
         [Theory]
-        [InlineData(4, 3, "Advantage player1")]
-        [InlineData(5, 4, "Advantage player1")]
-        [InlineData(6, 5, "Advantage player1")]
-        [InlineData(11, 10, "Advantage player1")]
-        [InlineData(3, 4, "Advantage player2")]
-        [InlineData(4, 5, "Advantage player2")]
-        [InlineData(5, 6, "Advantage player2")]
-        [InlineData(10, 11, "Advantage player2")]
-        [InlineData(4, 2, "Win for player1")]
-        [InlineData(5, 3, "Win for player1")]
-        [InlineData(11, 9, "Win for player1")]
-        [InlineData(2, 4, "Win for player2")]
-        [InlineData(3, 5, "Win for player2")]
-        [InlineData(9, 11, "Win for player2")]
-        public void FinalGamePlay(int player1, int player2, string expected)
+        [InlineData(4, 3, "Advantage Team 1")]
+        [InlineData(5, 4, "Advantage Team 1")]
+        [InlineData(6, 5, "Advantage Team 1")]
+        [InlineData(11, 10, "Advantage Team 1")]
+        [InlineData(3, 4, "Advantage Team 2")]
+        [InlineData(4, 5, "Advantage Team 2")]
+        [InlineData(5, 6, "Advantage Team 2")]
+        [InlineData(10, 11, "Advantage Team 2")]
+        [InlineData(4, 2, "Win for Team 1")]
+        [InlineData(5, 3, "Win for Team 1")]
+        [InlineData(11, 9, "Win for Team 1")]
+        [InlineData(2, 4, "Win for Team 2")]
+        [InlineData(3, 5, "Win for Team 2")]
+        [InlineData(9, 11, "Win for Team 2")]
+        public void FinalGamePlay(int team1, int team2, string expected)
         {
-            _scoreBoard.SetP1Score(player1);
-            _scoreBoard.SetP2Score(player2);
+            _scoreBoard.SetP1Score(team1);
+            _scoreBoard.SetP2Score(team2);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
 
         [Fact]
         public void RealisticGamePlayers()
         {
-            var _team1 = new Team(new Player(), null);
-            var _team2 = new Team(new Player(), null);
-            _scoreBoard.WonPoint(_team1);
-            _scoreBoard.WonPoint(_team1);
-            _scoreBoard.WonPoint(_team2);
-            _scoreBoard.WonPoint(_team2);
-            _scoreBoard.WonPoint(_team1);
-            _scoreBoard.WonPoint(_team2);
-            _scoreBoard.WonPoint(_team1);
-            _scoreBoard.WonPoint(_team2);
-            _scoreBoard.WonPoint(_team1);
-            _scoreBoard.WonPoint(_team2);
+            _scoreBoard.SetP1Score(1);
+            _scoreBoard.SetP1Score(1);
+            _scoreBoard.SetP2Score(1);
+            _scoreBoard.SetP2Score(1);
+            _scoreBoard.SetP1Score(1);
+            _scoreBoard.SetP2Score(1);
+            _scoreBoard.SetP1Score(1);
+            _scoreBoard.SetP2Score(1);
+            _scoreBoard.SetP1Score(1);
+            _scoreBoard.SetP2Score(1);
             _scoreBoard.GetScore().ShouldBe("Deuce");
         }
     }
