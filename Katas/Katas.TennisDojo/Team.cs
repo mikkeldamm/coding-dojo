@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Shouldly;
 
 namespace Katas.TennisDojo
 {
@@ -14,20 +15,46 @@ namespace Katas.TennisDojo
         public int TeamPoints { get; set; }
         public List<Player> Players{ get; set; }
 
-        public string Score { get; set; }
+        private string _matchScore;
+
+        public string MatchScore
+        {
+            get
+            {
+                return _matchScore;
+            }
+            set
+            {
+                _matchScore = value;
+                SendScoreToWatch();
+            }
+        }
+        public string StringScore
+        {
+            get
+            {
+                switch (TeamPoints)
+                {
+                    case 0:
+                        return "Love";
+                    case 1:
+                        return "Fifteen";
+                    case 2:
+                        return "Thirty";
+                    case 3:
+                        return "Forty";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
 
         public void SendScoreToWatch()
         {
             foreach (var player in Players)
             {
-                player.SendScoreToWatch(Score);
+                player.SendScoreToWatch(MatchScore);
             }
-        }
-
-        public void SetScore(string score)
-        {
-            Score = score;
-            SendScoreToWatch();
         }
     }
 }

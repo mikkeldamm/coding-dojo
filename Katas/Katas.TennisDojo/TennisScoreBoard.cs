@@ -22,28 +22,21 @@
 
         public string GetScore()
         {
-            if (GetEvenScore() != string.Empty) return GetEvenScore();
+            var score = _team1.StringScore + "-" + _team2.StringScore;
+            if (GetEvenScore() != string.Empty) score = GetEvenScore();
 
-            if(ScoreIsDeuce() != string.Empty)return GetEvenScore();
+            if (ScoreIsDeuce() != string.Empty) score = ScoreIsDeuce();
 
-            if(Team1ScoreIsLove() != string.Empty) return Team1ScoreIsLove();
+            if(Team1Advantage() != string.Empty) score = Team1Advantage();
 
-            if(Team2ScoreIsLove() != string.Empty) return Team2ScoreIsLove();
+            if(Team2Advantage() != string.Empty) score = Team2Advantage();
 
-            if(Team1IsAhead() != string.Empty) return Team1IsAhead();
+            if(Team1Wins()!= string.Empty) score = Team1Wins();
 
-            score = Team2IsAhead();
+            if(Team2Wins() != string.Empty) score = Team2Wins();
 
-            score = Team1Advantage();
-
-            score = Team2Advantage();
-
-            score = Team1Wins();
-
-            score = Team2Wins();
-
-            _team1.SetScore(score);
-            _team2.SetScore(score);
+            _team1.MatchScore = score;
+            _team2.MatchScore = score;
 
             return score;
         }
@@ -89,78 +82,6 @@
             if (_team1.TeamPoints > _team2.TeamPoints && _team2.TeamPoints >= 3)
             {
                 return "Advantage Team 1";
-            }
-            return string.Empty;
-        }
-
-        private string Team2IsAhead()
-        {
-            var team2Res = string.Empty;
-            var team1Res = string.Empty;
-
-            if (_team2.TeamPoints > _team1.TeamPoints && _team2.TeamPoints < 4)
-            {
-                if (_team2.TeamPoints == 2)
-                    team2Res = "Thirty";
-                if (_team2.TeamPoints == 3)
-                    team2Res = "Forty";
-                if (_team1.TeamPoints == 1)
-                    team1Res = "Fifteen";
-                if (_team1.TeamPoints == 2)
-                    team1Res = "Thirty";
-
-                return team1Res + "-" + team2Res;
-            }
-
-            return string.Empty;
-        }
-
-        private string Team1IsAhead()
-        {
-            var team2Res = string.Empty;
-            var team1Res = string.Empty;
-
-            if (_team1.TeamPoints > _team2.TeamPoints && _team1.TeamPoints < 4)
-            {
-                if (_team1.TeamPoints == 2)
-                    team1Res = "Thirty";
-                if (_team1.TeamPoints == 3)
-                    team1Res = "Forty";
-                if (_team2.TeamPoints == 1)
-                    team2Res = "Fifteen";
-                if (_team2.TeamPoints == 2)
-                    team2Res = "Thirty";
-
-                return team1Res + "-" + team2Res;
-            }
-
-            return string.Empty;
-        }
-
-        private string Team1ScoreIsLove()
-        {
-            if (_team1.TeamPoints == 0 && _team2.TeamPoints > 0)
-            {
-                if (_team2.TeamPoints == 1)
-                    return  "Love-Fifteen";
-                if (_team2.TeamPoints == 2)
-                    return "Love-Thirty";
-                if (_team2.TeamPoints == 3)
-                    return "Love-Forty";
-            }
-            return string.Empty;
-        }
-
-        private string Team2ScoreIsLove()
-        {
-            if (_team2.TeamPoints == 0 && _team1.TeamPoints > 0)
-            {
-                if (_team1.TeamPoints == 1)
-                    return "Fifteen-Love";
-                if (_team1.TeamPoints == 2)
-                    return "Thirty-Love";
-                if (_team1.TeamPoints == 3)
-                    return  "Forty-Love";
             }
             return string.Empty;
         }
