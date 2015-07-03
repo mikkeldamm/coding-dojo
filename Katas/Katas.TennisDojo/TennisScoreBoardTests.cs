@@ -7,6 +7,8 @@ namespace Katas.TennisDojo
     public class TennisScoreBoardTests
     {
         private readonly TennisScoreBoard _scoreBoard;
+        private Team _team1;
+        private Team _team2;
 
         public TennisScoreBoardTests()
         {
@@ -18,9 +20,9 @@ namespace Katas.TennisDojo
             var player4 = new Player { Name = "player 4", Watch = garminWatcher.Object };
             
 
-            var team1 = new Team(player1, player2);
-            var team2 = new Team(player3, player4);
-            _scoreBoard = new TennisScoreBoard(team1, team2);
+            _team1 = new Team(player1, player2);
+            _team2 = new Team(player3, player4);
+            _scoreBoard = new TennisScoreBoard(_team1, _team2);
         }
 
         [Theory]
@@ -30,8 +32,8 @@ namespace Katas.TennisDojo
         [InlineData(3, 3, "Deuce")]
         public void GetScore_IfBothPointsAreEqual(int score1, int score2, string expected)
         {
-            _scoreBoard.SetP1Score(score1);
-            _scoreBoard.SetP2Score(score2);
+            _team1.WonPoint(score1);
+            _team2.WonPoint(score2);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
 
@@ -41,7 +43,7 @@ namespace Katas.TennisDojo
         [InlineData(3, "Forty-Love")]
         public void GetScore_Player1GetScore(int score1, string expected)
         {
-            _scoreBoard.SetP1Score(score1);
+            _team1.WonPoint(score1);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
 
@@ -51,7 +53,7 @@ namespace Katas.TennisDojo
         [InlineData(3, "Love-Forty")]
         public void GetScore_Player2GetScore(int score1, string expected)
         {
-            _scoreBoard.SetP2Score(score1);
+            _team2.WonPoint(score1);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
 
@@ -61,8 +63,8 @@ namespace Katas.TennisDojo
         [InlineData(3, 2, "Forty-Thirty")]
         public void GetScore_Player1MorePointsThanPlayer2(int score1, int score2, string expected)
         {
-            _scoreBoard.SetP1Score(score1);
-            _scoreBoard.SetP2Score(score2);
+            _team1.WonPoint(score1);
+            _team2.WonPoint(score2);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
         [Theory]
@@ -71,8 +73,8 @@ namespace Katas.TennisDojo
         [InlineData(2, 3, "Thirty-Forty")]
         public void GetScore_Player2MorePointsThanPlayer1(int score1, int score2, string expected)
         {
-            _scoreBoard.SetP1Score(score1);
-            _scoreBoard.SetP2Score(score2);
+            _team1.WonPoint(score1);
+            _team2.WonPoint(score2);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
 
@@ -93,24 +95,24 @@ namespace Katas.TennisDojo
         [InlineData(9, 11, "Win for Team 2")]
         public void FinalGamePlay(int team1, int team2, string expected)
         {
-            _scoreBoard.SetP1Score(team1);
-            _scoreBoard.SetP2Score(team2);
+            _team1.WonPoint(team1);
+            _team2.WonPoint(team2);
             _scoreBoard.GetScore().ShouldBe(expected);
         }
 
         [Fact]
         public void RealisticGamePlayers()
         {
-            _scoreBoard.SetP1Score(1);
-            _scoreBoard.SetP1Score(1);
-            _scoreBoard.SetP2Score(1);
-            _scoreBoard.SetP2Score(1);
-            _scoreBoard.SetP1Score(1);
-            _scoreBoard.SetP2Score(1);
-            _scoreBoard.SetP1Score(1);
-            _scoreBoard.SetP2Score(1);
-            _scoreBoard.SetP1Score(1);
-            _scoreBoard.SetP2Score(1);
+            _team1.WonPoint(1);
+            _team1.WonPoint(1);
+            _team2.WonPoint(1);
+            _team2.WonPoint(1);
+            _team1.WonPoint(1);
+            _team2.WonPoint(1);
+            _team1.WonPoint(1);
+            _team2.WonPoint(1);
+            _team1.WonPoint(1);
+            _team2.WonPoint(1);
             _scoreBoard.GetScore().ShouldBe("Deuce");
         }
     }

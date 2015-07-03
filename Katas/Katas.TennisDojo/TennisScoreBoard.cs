@@ -1,18 +1,10 @@
 ﻿namespace Katas.TennisDojo
 {
+
     public class TennisScoreBoard
     {
-        public int PlayerA = 0;
-        public int PlayerB = 0;
-
-        //public string P1Res = "";
-        //public string P2Res = "";
-
         private readonly Team _team1;
         private readonly Team _team2;
-
-        private string _playerWithWatch;
-        //private string _score;
 
         public TennisScoreBoard(Team team1, Team team2)
         {
@@ -34,7 +26,7 @@
             if(Team1Wins()!= string.Empty) score = Team1Wins();
 
             if(Team2Wins() != string.Empty) score = Team2Wins();
-
+    
             _team1.MatchScore = score;
             _team2.MatchScore = score;
 
@@ -94,27 +86,6 @@
             if (_team1.TeamPoints == 1)
                 return "Fifteen-All";
             return _team1.TeamPoints == 2 ? "Thirty-All" : string.Empty;
-        }
-
-        public void SetP1Score(int number)
-        {
-            for (int i = 0; i < number; i++)
-            {
-                WonPoint(_team1);
-            }
-        }
-
-        public void SetP2Score(int number)
-        {
-            for (int i = 0; i < number; i++)
-            {
-                WonPoint(_team2);
-            }
-        }
-
-        public void WonPoint(Team team)
-        {
-            team.TeamPoints++;
         }
     }
 }

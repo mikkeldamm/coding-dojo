@@ -56,5 +56,10 @@ namespace Katas.TennisDojo
                 player.SendScoreToWatch(MatchScore);
             }
         }
+
+        public void WonPoint(int point)
+        {
+            TeamPoints += point;
+        }
     }
 }

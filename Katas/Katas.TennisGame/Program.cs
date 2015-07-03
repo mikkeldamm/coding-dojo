@@ -80,7 +80,7 @@ namespace Katas.TennisGame
                     var rdn = new Random();
                     Task.Delay((rdn.Next(1, 6)*1000)).Wait();
 
-                    board.WonPoint(team);
+                    team.WonPoint(1);
                     board.GetScore().WriteLine(gameName + ": {0}");
                 });
             }
